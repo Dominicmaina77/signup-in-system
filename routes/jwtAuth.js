@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const pool = require("../db");
+const bcrypt = require("bcrypt");
 // register
 router.post("/register", async (req, res) => {
     try{
@@ -21,13 +22,13 @@ router.post("/register", async (req, res) => {
 
         // enter user in the db
         const newUser = await pool.query("INSERT INTO users (user_name,user_email,user_password) VALUES ($1,$2,$3) RETURNING *", [name,email,bcryptPassword]);
-
+        res.json(newUser);
         // generate jwt token
       
 
     } catch (err) {
         console.log(err);
-        res.status
+        res.status(500).send("Server error");
     }
 })
 
