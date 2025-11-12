@@ -17,9 +17,10 @@ router.post("/register", async (req, res) => {
          const bcryptPassword = await bcrypt.hash(password,salt);
 
           res.json(user.rows)
-        // hash the password
+
 
         // enter user in the db
+        const newUser = await pool.query("INSERT INTO users (user_name,user_email,user_password) VALUES ($1,$2,$3) RETURNING *", [name,email,bcryptPassword]);
 
         // generate jwt token
       
