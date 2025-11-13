@@ -22,7 +22,7 @@ module.exports= async(req,res,next)=>{
         if(!jwtToken){
             return res.status(403).send({message:"Unauthorized access"});
         }
-        const payload = jwtToken.verify(jwtToken,process.env.jwtSecret);
+        const payload = jwt.verify(jwtToken,process.env.jwtSecret);
         req.user=payload.user;
     } catch (err) {
         console.error(err.message);
