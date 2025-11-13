@@ -3,6 +3,7 @@ const pool = require("../db");
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../utils/jwtGenerator");
 const validInfo = require("../middleware/validinfo");
+const authorization = require("../middleware/authorization");
 // register
 router.post("/register",validInfo, async (req, res) => {
     try{
@@ -37,7 +38,7 @@ router.post("/register",validInfo, async (req, res) => {
 // login route
 router.post("/login",validInfo, async (req, res) => {
     try{
-        // destructure the request body(email,password)
+       // destructure the request body(email,password)
           const {email,password}=req.body;
         // check if the user does exist(if not throw error)
           const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
@@ -57,6 +58,15 @@ router.post("/login",validInfo, async (req, res) => {
         res.status(500).send("Server error");
     }
 });
+
+router.get("/is-verify",authorization, async(req,res) =>{
+    try{
+      res.json(true);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server error");
+    }
+} )
 
 
 
