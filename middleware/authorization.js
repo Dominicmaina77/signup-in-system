@@ -17,7 +17,7 @@ module.exports= async(req,res,next)=>{
     // }
 
     try {
-        const jwtToken = req.headers("token");
+        const jwtToken = req.header("token");
 
         if(!jwtToken){
             return res.status(403).send({message:"Unauthorized access"});
